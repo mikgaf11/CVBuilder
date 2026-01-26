@@ -17,6 +17,19 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ============================================
+// SECTION COLLAPSE/EXPAND
+// ============================================
+function toggleSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    const arrow = section.querySelector('.section-arrow');
+    const content = section.querySelector('.section-content');
+    
+    section.classList.toggle('collapsed');
+    content.style.display = content.style.display === 'none' ? 'block' : 'none';
+    arrow.style.transform = section.classList.contains('collapsed') ? 'rotate(-90deg)' : 'rotate(0deg)';
+}
+
+// ============================================
 // DARK MODE TOGGLE
 // ============================================
 function toggleDarkMode() {
@@ -80,7 +93,7 @@ function addExperience() {
         <div class="array-item" id="exp-${id}">
             <div class="item-header">
                 <strong>Job Title</strong>
-                <button class="remove-btn" onclick="removeExperience(${id})">Remove</button>
+                <button class="remove-btn trash-btn" onclick="removeExperience(${id})" title="Delete"><i class="fas fa-trash"></i></button>
             </div>
             <div class="two-columns">
                 <input type="text" placeholder="Job Title" class="exp-title" data-id="${id}" onchange="updateCV(); saveData()">
@@ -96,15 +109,6 @@ function addExperience() {
     container.insertAdjacentHTML('beforeend', html);
 }
 
-function removeExperience(id) {
-    document.getElementById(`exp-${id}`).remove();
-    updateCV();
-    saveData();
-}
-
-// ============================================
-// EDUCATION MANAGEMENT
-// ============================================
 function addEducation() {
     const id = educationCount++;
     const container = document.getElementById('educationContainer');
@@ -112,7 +116,7 @@ function addEducation() {
         <div class="array-item" id="edu-${id}">
             <div class="item-header">
                 <strong>Degree</strong>
-                <button class="remove-btn" onclick="removeEducation(${id})">Remove</button>
+                <button class="remove-btn trash-btn" onclick="removeEducation(${id})" title="Delete"><i class="fas fa-trash"></i></button>
             </div>
             <div class="two-columns">
                 <input type="text" placeholder="Degree" class="edu-degree" data-id="${id}" onchange="updateCV(); saveData()">
@@ -127,21 +131,15 @@ function addEducation() {
     container.insertAdjacentHTML('beforeend', html);
 }
 
-function removeEducation(id) {
-    document.getElementById(`edu-${id}`).remove();
-    updateCV();
-    saveData();
-}
-
-// ============================================
-// LANGUAGES MANAGEMENT
-// ============================================
 function addLanguage() {
     const id = languageCount++;
     const container = document.getElementById('languagesContainer');
     const html = `
         <div class="language-card" id="lang-${id}">
-            <input type="text" placeholder="Language Name (e.g., English)" class="lang-name" data-id="${id}" onchange="updateCV(); saveData()">
+            <div class="language-card-header">
+                <input type="text" placeholder="Language Name (e.g., English)" class="lang-name" data-id="${id}" onchange="updateCV(); saveData()">
+                <button class="trash-btn" onclick="removeLanguage(${id})" title="Delete"><i class="fas fa-trash"></i></button>
+            </div>
             <select class="lang-level" data-id="${id}" onchange="updateCV(); saveData()">
                 <option value="">Select Proficiency Level</option>
                 <option value="Native Speaker">Native Speaker</option>
@@ -149,21 +147,11 @@ function addLanguage() {
                 <option value="Intermediate">Intermediate</option>
                 <option value="Basic">Basic</option>
             </select>
-            <button class="remove-btn" onclick="removeLanguage(${id})">Remove</button>
         </div>
     `;
     container.insertAdjacentHTML('beforeend', html);
 }
 
-function removeLanguage(id) {
-    document.getElementById(`lang-${id}`).remove();
-    updateCV();
-    saveData();
-}
-
-// ============================================
-// CERTIFICATION MANAGEMENT
-// ============================================
 function addCertification() {
     const id = certificationCount++;
     const container = document.getElementById('certificationsContainer');
@@ -171,7 +159,7 @@ function addCertification() {
         <div class="array-item" id="cert-${id}">
             <div class="item-header">
                 <strong>Certification</strong>
-                <button class="remove-btn" onclick="removeCertification(${id})">Remove</button>
+                <button class="remove-btn trash-btn" onclick="removeCertification(${id})" title="Delete"><i class="fas fa-trash"></i></button>
             </div>
             <div class="two-columns">
                 <input type="text" placeholder="Certification/Award Name" class="cert-name" data-id="${id}" onchange="updateCV(); saveData()">

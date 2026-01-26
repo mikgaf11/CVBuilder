@@ -29,8 +29,12 @@
 
         <div class="form-section" id="formSection">
             <!-- Personal Information -->
-            <div class="section-group">
+        <div class="section-group" id="personalSection">
+            <div class="section-header" onclick="toggleSection('personalSection')">
                 <h3 class="section-title">Personal Information</h3>
+                <span class="section-arrow">▼</span>
+            </div>
+            <div class="section-content">
                 <div class="form-group">
                     <label>Full Name *</label>
                     <input type="text" id="fullName" placeholder="John Doe" onchange="updateCV(); saveData()">
@@ -87,7 +91,8 @@
                         <i class="fas fa-camera"></i> Upload Profile Photo
                     </label>
                     <img id="photoPreview" class="image-preview" style="display: none;" alt="Profile Photo">
-                    <button class="remove-btn" id="removePhotoBtn" style="display: none;" onclick="removePhoto()">Remove Photo</button>
+                    <button class="trash-btn" id="removePhotoBtn" style="display: none;" onclick="removePhoto()" title="Delete"><i class="fas fa-trash"></i></button>
+
                 </div>
 
                 <div class="form-group">
@@ -95,49 +100,69 @@
                     <textarea id="summary" placeholder="Brief overview of your skills and experience..." onchange="updateCV(); saveData()"></textarea>
                 </div>
             </div>
+        </div>
 
-            <!-- Experience -->
-            <div class="section-group">
+        <!-- Experience -->
+        <div class="section-group" id="experienceSection">
+            <div class="section-header" onclick="toggleSection('experienceSection')">
                 <h3 class="section-title">Work Experience</h3>
+                <span class="section-arrow">▼</span>
+            </div>
+            <div class="section-content">
                 <div id="experienceContainer"></div>
                 <button class="add-btn" onclick="addExperience()"><i class="fas fa-plus"></i> Add Experience</button>
             </div>
+        </div>
 
-            <!-- Education -->
-            <div class="section-group">
+        <!-- Education -->
+        <div class="section-group" id="educationSection">
+            <div class="section-header" onclick="toggleSection('educationSection')">
                 <h3 class="section-title">Education</h3>
+                <span class="section-arrow">▼</span>
+            </div>
+            <div class="section-content">
                 <div id="educationContainer"></div>
                 <button class="add-btn" onclick="addEducation()"><i class="fas fa-plus"></i> Add Education</button>
             </div>
+        </div>
 
-            <!-- Languages -->
-            <div class="section-group">
+        <!-- Languages -->
+        <div class="section-group" id="languagesSection">
+            <div class="section-header" onclick="toggleSection('languagesSection')">
                 <h3 class="section-title">Languages</h3>
+                <span class="section-arrow">▼</span>
+            </div>
+            <div class="section-content">
                 <div id="languagesContainer"></div>
                 <button class="add-btn" onclick="addLanguage()"><i class="fas fa-plus"></i> Add Language</button>
             </div>
+        </div>
 
-            <!-- Skills -->
-            <div class="section-group">
+        <!-- Skills -->
+        <div class="section-group" id="skillsSection">
+            <div class="section-header" onclick="toggleSection('skillsSection')">
                 <h3 class="section-title">Skills</h3>
+                <span class="section-arrow">▼</span>
+            </div>
+            <div class="section-content">
                 <div class="form-group">
                     <label>Add Skills (comma-separated)</label>
                     <textarea id="skills" placeholder="JavaScript, React, Node.js, CSS, HTML..." onchange="updateCV(); saveData()"></textarea>
                 </div>
             </div>
+        </div>
 
-            <!-- Certifications -->
-            <div class="section-group">
+        <!-- Certifications -->
+        <div class="section-group" id="certificationsSection">
+            <div class="section-header" onclick="toggleSection('certificationsSection')">
                 <h3 class="section-title">Certifications & Awards</h3>
+                <span class="section-arrow">▼</span>
+            </div>
+            <div class="section-content">
                 <div id="certificationsContainer"></div>
                 <button class="add-btn" onclick="addCertification()"><i class="fas fa-plus"></i> Add Certification</button>
             </div>
-
-            <div class="form-actions">
-                <button class="btn btn-secondary" onclick="resetForm()">Reset Form</button>
-                <button class="btn btn-primary" onclick="exportData()">Export Data</button>
-                <button class="btn btn-secondary" onclick="importData()">Import Data</button>
-            </div>
+        </div>
         </div>
 
         <!-- CV Preview -->
