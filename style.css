@@ -14,6 +14,8 @@
     --text-light: #f5f5f5;
     --border: rgba(94, 82, 64, 0.2);
     --success: #218051;
+    --input-bg: white;
+    --input-text: #134252;
 }
 
 body {
@@ -21,6 +23,15 @@ body {
     background: white;
     color: var(--text-dark);
     overflow: hidden;
+    transition: background 0.3s, color 0.3s;
+}
+
+body.dark-mode {
+    background: #1a1a1a;
+    color: #e0e0e0;
+    --input-bg: #2a2a2a;
+    --input-text: #e0e0e0;
+    --text-dark: #e0e0e0;
 }
 
 .container-main {
@@ -42,6 +53,11 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     margin-bottom: 10px;
+    transition: background 0.3s;
+}
+
+body.dark-mode .header {
+    background: #2a2a2a;
 }
 
 .header h1 {
@@ -54,6 +70,7 @@ body {
     display: flex;
     gap: 10px;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .color-palette {
@@ -83,6 +100,10 @@ body {
     box-shadow: 0 0 0 2px white;
 }
 
+body.dark-mode .color-btn.active {
+    box-shadow: 0 0 0 2px #2a2a2a;
+}
+
 .color-1 { background: #208096; }
 .color-2 { background: #d4473f; }
 .color-3 { background: #a84d2f; }
@@ -102,6 +123,7 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
+    white-space: nowrap;
 }
 
 .btn-primary {
@@ -123,6 +145,15 @@ body {
     background: rgba(94, 82, 64, 0.2);
 }
 
+body.dark-mode .btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #b0b0b0;
+}
+
+body.dark-mode .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
 .btn-sm {
     padding: 6px 12px;
     font-size: 12px;
@@ -138,6 +169,11 @@ body {
     border-radius: 8px;
     padding: 25px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: background 0.3s;
+}
+
+body.dark-mode .form-section {
+    background: #2a2a2a;
 }
 
 .section-group {
@@ -184,8 +220,8 @@ select {
     font-size: 14px;
     font-family: inherit;
     transition: all 0.3s;
-    color: var(--text-dark);
-    background: white;
+    color: var(--input-text);
+    background: var(--input-bg);
 }
 
 input[type="text"]:focus,
@@ -269,6 +305,11 @@ input[type="file"] {
     border-radius: 6px;
     margin-bottom: 10px;
     border-left: 3px solid var(--primary);
+    transition: background 0.3s;
+}
+
+body.dark-mode .array-item {
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .item-header {
@@ -295,7 +336,6 @@ input[type="file"] {
     background: rgba(32, 128, 150, 0.2);
 }
 
-/* Language Card */
 .language-card {
     background: linear-gradient(135deg, rgba(32, 128, 150, 0.08) 0%, rgba(32, 128, 150, 0.03) 100%);
     border: 1px solid var(--border);
@@ -319,6 +359,13 @@ input[type="file"] {
     width: 100%;
 }
 
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: flex-end;
+}
+
 /* CV Preview */
 .cv-preview {
     display: flex;
@@ -328,6 +375,11 @@ input[type="file"] {
     background: white;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: background 0.3s;
+}
+
+body.dark-mode .cv-preview {
+    background: #2a2a2a;
 }
 
 .cv-content {
@@ -385,6 +437,10 @@ input[type="file"] {
 .cv-contact-item a {
     color: #000;
     text-decoration: none;
+}
+
+body.dark-mode .cv-contact-item a {
+    color: #e0e0e0;
 }
 
 .cv-contact-item a:hover {
@@ -459,7 +515,6 @@ input[type="file"] {
     font-weight: 500;
 }
 
-/* CV LANGUAGES GRID */
 .cv-languages-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));

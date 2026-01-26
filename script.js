@@ -9,6 +9,7 @@ let currentTheme = '#208096';
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
+    loadData();
     addExperience();
     addEducation();
     addLanguage();
@@ -17,16 +18,29 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ============================================
+// DARK MODE TOGGLE
+// ============================================
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+}
+
+// Load dark mode preference
+if (localStorage.getItem('darkMode') === 'true') {
+    document.body.classList.add('dark-mode');
+}
+
+// ============================================
 // THEME & STYLING - Color Theme Switching
 // ============================================
 function changeTheme(color) {
     currentTheme = color;
     document.documentElement.style.setProperty('--primary', color);
     
-    // Update active button
     document.querySelectorAll('.color-btn').forEach(btn => btn.classList.remove('active'));
     event.target.classList.add('active');
     
+    saveData();
     updateCV();
 }
 
@@ -42,6 +56,7 @@ function previewPhoto() {
             preview.src = e.target.result;
             preview.style.display = 'block';
             document.getElementById('removePhotoBtn').style.display = 'block';
+            localStorage.setItem('profilePhoto', e.target.result);
             updateCV();
         };
         reader.readAsDataURL(file);
@@ -53,6 +68,7 @@ function removePhoto() {
     document.getElementById('photoPreview').style.display = 'none';
     document.getElementById('removePhotoBtn').style.display = 'none';
     document.getElementById('cvPhoto').style.display = 'none';
+    localStorage.removeItem('profilePhoto');
     updateCV();
 }
 
@@ -69,14 +85,14 @@ function addExperience() {
                 <button class="remove-btn" onclick="removeExperience(${id})">Remove</button>
             </div>
             <div class="two-columns">
-                <input type="text" placeholder="Job Title" class="exp-title" data-id="${id}" onchange="updateCV()">
-                <input type="text" placeholder="Company" class="exp-company" data-id="${id}" onchange="updateCV()">
+                <input type="text" placeholder="Job Title" class="exp-title" data-id="${id}" onchange="updateCV(); saveData()">
+                <input type="text" placeholder="Company" class="exp-company" data-id="${id}" onchange="updateCV(); saveData()">
             </div>
             <div class="two-columns">
-                <input type="text" placeholder="Start Date (e.g., Jan 2020)" class="exp-start" data-id="${id}" onchange="updateCV()">
-                <input type="text" placeholder="End Date (e.g., Present)" class="exp-end" data-id="${id}" onchange="updateCV()">
+                <input type="text" placeholder="Start Date (e.g., Jan 2020)" class="exp-start" data-id="${id}" onchange="updateCV(); saveData()">
+                <input type="text" placeholder="End Date (e.g., Present)" class="exp-end" data-id="${id}" onchange="updateCV(); saveData()">
             </div>
-            <textarea placeholder="Job description and responsibilities..." class="exp-description" data-id="${id}" onchange="updateCV()" style="margin-top: 8px;"></textarea>
+            <textarea placeholder="Job description and responsibilities..." class="exp-description" data-id="${id}" onchange="updateCV(); saveData()" style="margin-top: 8px;"></textarea>
         </div>
     `;
     container.insertAdjacentHTML('beforeend', html);
@@ -85,6 +101,7 @@ function addExperience() {
 function removeExperience(id) {
     document.getElementById(`exp-${id}`).remove();
     updateCV();
+    saveData();
 }
 
 // ============================================
@@ -100,12 +117,12 @@ function addEducation() {
                 <button class="remove-btn" onclick="removeEducation(${id})">Remove</button>
             </div>
             <div class="two-columns">
-                <input type="text" placeholder="Degree" class="edu-degree" data-id="${id}" onchange="updateCV()">
-                <input type="text" placeholder="School/University" class="edu-school" data-id="${id}" onchange="updateCV()">
+                <input type="text" placeholder="Degree" class="edu-degree" data-id="${id}" onchange="updateCV(); saveData()">
+                <input type="text" placeholder="School/University" class="edu-school" data-id="${id}" onchange="updateCV(); saveData()">
             </div>
             <div class="two-columns">
-                <input type="text" placeholder="Graduation Year" class="edu-year" data-id="${id}" onchange="updateCV()">
-                <input type="text" placeholder="Field of Study" class="edu-field" data-id="${id}" onchange="updateCV()">
+                <input type="text" placeholder="Graduation Year" class="edu-year" data-id="${id}" onchange="updateCV(); saveData()">
+                <input type="text" placeholder="Field of Study" class="edu-field" data-id="${id}" onchange="updateCV(); saveData()">
             </div>
         </div>
     `;
@@ -115,6 +132,7 @@ function addEducation() {
 function removeEducation(id) {
     document.getElementById(`edu-${id}`).remove();
     updateCV();
+    saveData();
 }
 
 // ============================================
@@ -125,8 +143,8 @@ function addLanguage() {
     const container = document.getElementById('languagesContainer');
     const html = `
         <div class="language-card" id="lang-${id}">
-            <input type="text" placeholder="Language Name (e.g., English)" class="lang-name" data-id="${id}" onchange="updateCV()">
-            <select class="lang-level" data-id="${id}" onchange="updateCV()">
+            <input type="text" placeholder="Language Name (e.g., English)" class="lang-name" data-id="${id}" onchange="updateCV(); saveData()">
+            <select class="lang-level" data-id="${id}" onchange="updateCV(); saveData()">
                 <option value="">Select Proficiency Level</option>
                 <option value="Native Speaker">Native Speaker</option>
                 <option value="Fluent">Fluent</option>
@@ -142,6 +160,7 @@ function addLanguage() {
 function removeLanguage(id) {
     document.getElementById(`lang-${id}`).remove();
     updateCV();
+    saveData();
 }
 
 // ============================================
@@ -157,10 +176,10 @@ function addCertification() {
                 <button class="remove-btn" onclick="removeCertification(${id})">Remove</button>
             </div>
             <div class="two-columns">
-                <input type="text" placeholder="Certification/Award Name" class="cert-name" data-id="${id}" onchange="updateCV()">
-                <input type="text" placeholder="Issuing Organization" class="cert-issuer" data-id="${id}" onchange="updateCV()">
+                <input type="text" placeholder="Certification/Award Name" class="cert-name" data-id="${id}" onchange="updateCV(); saveData()">
+                <input type="text" placeholder="Issuing Organization" class="cert-issuer" data-id="${id}" onchange="updateCV(); saveData()">
             </div>
-            <input type="text" placeholder="Date Obtained" class="cert-date" data-id="${id}" onchange="updateCV()" style="margin-top: 8px;">
+            <input type="text" placeholder="Date Obtained" class="cert-date" data-id="${id}" onchange="updateCV(); saveData()" style="margin-top: 8px;">
         </div>
     `;
     container.insertAdjacentHTML('beforeend', html);
@@ -169,6 +188,7 @@ function addCertification() {
 function removeCertification(id) {
     document.getElementById(`cert-${id}`).remove();
     updateCV();
+    saveData();
 }
 
 // ============================================
@@ -182,6 +202,8 @@ function updateCV() {
     const phone = document.getElementById('phone').value;
     const location = document.getElementById('location').value;
     const website = document.getElementById('website').value;
+    const linkedin = document.getElementById('linkedin').value;
+    const github = document.getElementById('github').value;
     const summary = document.getElementById('summary').value;
     const skills = document.getElementById('skills').value;
 
@@ -191,10 +213,12 @@ function updateCV() {
 
     // Update Contact Info
     let contactHTML = '';
-    if (email) contactHTML += `<div class="cv-contact-item"><i class="fas fa-envelope"></i> <span style="color: #000;">${email}</span></div>`;
-    if (phone) contactHTML += `<div class="cv-contact-item"><i class="fas fa-phone"></i> <span style="color: #000;">${phone}</span></div>`;
-    if (location) contactHTML += `<div class="cv-contact-item"><i class="fas fa-map-marker-alt"></i> <span style="color: #000;">${location}</span></div>`;
-    if (website) contactHTML += `<div class="cv-contact-item"><i class="fas fa-globe"></i> <a href="${website}" target="_blank" style="color: #000;">${website.replace(/^https?:\/\//, '')}</a></div>`;
+    if (email) contactHTML += `<div class="cv-contact-item"><i class="fas fa-envelope"></i> <span style="color: #000;">dark-mode .cv-contact-item { color: #e0e0e0; } ${email}</span></div>`;
+    if (phone) contactHTML += `<div class="cv-contact-item"><i class="fas fa-phone"></i> <span style="color: #000;">dark-mode .cv-contact-item { color: #e0e0e0; } ${phone}</span></div>`;
+    if (location) contactHTML += `<div class="cv-contact-item"><i class="fas fa-map-marker-alt"></i> <span style="color: #000;">dark-mode .cv-contact-item { color: #e0e0e0; } ${location}</span></div>`;
+    if (website) contactHTML += `<div class="cv-contact-item"><i class="fas fa-globe"></i> <a href="${website}" target="_blank" style="color: #000;">dark-mode .cv-contact-item a { color: #e0e0e0; } ${website.replace(/^https?:\/\//, '')}</a></div>`;
+    if (linkedin) contactHTML += `<div class="cv-contact-item"><i class="fab fa-linkedin"></i> <a href="${linkedin}" target="_blank" style="color: #000;">dark-mode .cv-contact-item a { color: #e0e0e0; } LinkedIn</a></div>`;
+    if (github) contactHTML += `<div class="cv-contact-item"><i class="fab fa-github"></i> <a href="${github}" target="_blank" style="color: #000;">dark-mode .cv-contact-item a { color: #e0e0e0; } GitHub</a></div>`;
     document.getElementById('cvContact').innerHTML = contactHTML;
 
     // Update Photo
@@ -334,6 +358,132 @@ function updateCV() {
 }
 
 // ============================================
+// DATA PERSISTENCE - Save & Load
+// ============================================
+function saveData() {
+    const data = {
+        fullName: document.getElementById('fullName').value,
+        title: document.getElementById('title').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        location: document.getElementById('location').value,
+        website: document.getElementById('website').value,
+        linkedin: document.getElementById('linkedin').value,
+        github: document.getElementById('github').value,
+        summary: document.getElementById('summary').value,
+        skills: document.getElementById('skills').value,
+        theme: currentTheme,
+        timestamp: new Date().toISOString()
+    };
+    localStorage.setItem('cvData', JSON.stringify(data));
+}
+
+function loadData() {
+    const saved = localStorage.getItem('cvData');
+    if (saved) {
+        const data = JSON.parse(saved);
+        document.getElementById('fullName').value = data.fullName || '';
+        document.getElementById('title').value = data.title || '';
+        document.getElementById('email').value = data.email || '';
+        document.getElementById('phone').value = data.phone || '';
+        document.getElementById('location').value = data.location || '';
+        document.getElementById('website').value = data.website || '';
+        document.getElementById('linkedin').value = data.linkedin || '';
+        document.getElementById('github').value = data.github || '';
+        document.getElementById('summary').value = data.summary || '';
+        document.getElementById('skills').value = data.skills || '';
+        
+        if (data.theme) {
+            currentTheme = data.theme;
+            document.documentElement.style.setProperty('--primary', data.theme);
+        }
+    }
+    
+    // Load photo
+    const savedPhoto = localStorage.getItem('profilePhoto');
+    if (savedPhoto) {
+        document.getElementById('photoPreview').src = savedPhoto;
+        document.getElementById('photoPreview').style.display = 'block';
+        document.getElementById('removePhotoBtn').style.display = 'block';
+    }
+}
+
+// ============================================
+// EXPORT & IMPORT - JSON File Exchange
+// ============================================
+function exportData() {
+    const data = {
+        fullName: document.getElementById('fullName').value,
+        title: document.getElementById('title').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        location: document.getElementById('location').value,
+        website: document.getElementById('website').value,
+        linkedin: document.getElementById('linkedin').value,
+        github: document.getElementById('github').value,
+        summary: document.getElementById('summary').value,
+        skills: document.getElementById('skills').value,
+        theme: currentTheme,
+        photo: document.getElementById('photoPreview').src,
+        exportDate: new Date().toLocaleString()
+    };
+    
+    const json = JSON.stringify(data, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `CV_${document.getElementById('fullName').value || 'backup'}_${Date.now()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function importData() {
+    document.getElementById('importFile').click();
+}
+
+function handleImport(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const data = JSON.parse(e.target.result);
+                document.getElementById('fullName').value = data.fullName || '';
+                document.getElementById('title').value = data.title || '';
+                document.getElementById('email').value = data.email || '';
+                document.getElementById('phone').value = data.phone || '';
+                document.getElementById('location').value = data.location || '';
+                document.getElementById('website').value = data.website || '';
+                document.getElementById('linkedin').value = data.linkedin || '';
+                document.getElementById('github').value = data.github || '';
+                document.getElementById('summary').value = data.summary || '';
+                document.getElementById('skills').value = data.skills || '';
+                
+                if (data.theme) {
+                    currentTheme = data.theme;
+                    document.documentElement.style.setProperty('--primary', data.theme);
+                }
+                
+                if (data.photo) {
+                    document.getElementById('photoPreview').src = data.photo;
+                    document.getElementById('photoPreview').style.display = 'block';
+                    document.getElementById('removePhotoBtn').style.display = 'block';
+                }
+                
+                saveData();
+                updateCV();
+                alert('✅ CV data imported successfully!');
+            } catch (error) {
+                alert('❌ Error importing file. Please check the file format.');
+            }
+        };
+        reader.readAsText(file);
+    }
+    document.getElementById('importFile').value = '';
+}
+
+// ============================================
 // EXPORT & UTILITY - PDF Download & Form Reset
 // ============================================
 function downloadPDF() {
@@ -349,13 +499,15 @@ function downloadPDF() {
 }
 
 function resetForm() {
-    if (confirm('Are you sure you want to reset the entire form?')) {
+    if (confirm('⚠️ This will clear all data. Are you sure?')) {
         document.getElementById('fullName').value = '';
         document.getElementById('title').value = '';
         document.getElementById('email').value = '';
         document.getElementById('phone').value = '';
         document.getElementById('location').value = '';
         document.getElementById('website').value = '';
+        document.getElementById('linkedin').value = '';
+        document.getElementById('github').value = '';
         document.getElementById('summary').value = '';
         document.getElementById('skills').value = '';
         document.getElementById('profilePhoto').value = '';
@@ -371,6 +523,9 @@ function resetForm() {
         educationCount = 0;
         languageCount = 0;
         certificationCount = 0;
+        
+        localStorage.removeItem('cvData');
+        localStorage.removeItem('profilePhoto');
         
         addExperience();
         addEducation();
