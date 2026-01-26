@@ -7,7 +7,6 @@ let languageCount = 0;
 let certificationCount = 0;
 let currentTheme = '#208096';
 
-// Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
     loadData();
     addExperience();
@@ -25,7 +24,6 @@ function toggleDarkMode() {
     localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
 }
 
-// Load dark mode preference
 if (localStorage.getItem('darkMode') === 'true') {
     document.body.classList.add('dark-mode');
 }
@@ -45,7 +43,7 @@ function changeTheme(color) {
 }
 
 // ============================================
-// PHOTO MANAGEMENT - Image Upload & Preview
+// PHOTO MANAGEMENT
 // ============================================
 function previewPhoto() {
     const file = document.getElementById('profilePhoto').files[0];
@@ -73,7 +71,7 @@ function removePhoto() {
 }
 
 // ============================================
-// EXPERIENCE SECTION - Add/Remove Work
+// EXPERIENCE MANAGEMENT
 // ============================================
 function addExperience() {
     const id = experienceCount++;
@@ -105,7 +103,7 @@ function removeExperience(id) {
 }
 
 // ============================================
-// EDUCATION SECTION - Add/Remove Education
+// EDUCATION MANAGEMENT
 // ============================================
 function addEducation() {
     const id = educationCount++;
@@ -136,7 +134,7 @@ function removeEducation(id) {
 }
 
 // ============================================
-// LANGUAGES MANAGEMENT - Add/Remove Languages
+// LANGUAGES MANAGEMENT
 // ============================================
 function addLanguage() {
     const id = languageCount++;
@@ -164,7 +162,7 @@ function removeLanguage(id) {
 }
 
 // ============================================
-// CERTIFICATION MANAGEMENT - Add/Remove Certs
+// CERTIFICATION MANAGEMENT
 // ============================================
 function addCertification() {
     const id = certificationCount++;
@@ -195,9 +193,10 @@ function removeCertification(id) {
 // CV PREVIEW UPDATE - Real-time CV Rendering
 // ============================================
 function updateCV() {
-    // ===== PERSONAL INFO =====
     const fullName = document.getElementById('fullName').value || 'Your Full Name';
     const title = document.getElementById('title').value;
+    const dob = document.getElementById('dob').value;
+    const nationality = document.getElementById('nationality').value;
     const email = document.getElementById('email').value;
     const phone = document.getElementById('phone').value;
     const location = document.getElementById('location').value;
@@ -211,14 +210,25 @@ function updateCV() {
     document.getElementById('cvName').textContent = fullName;
     document.getElementById('cvTitle').textContent = title || 'Professional Title';
 
+    // Update Meta Info (DOB & Nationality)
+    let metaHTML = '';
+    if (dob) {
+        const birthDate = new Date(dob);
+        const dobFormatted = birthDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        metaHTML += `<span class="cv-meta-item"><i class="fas fa-birthday-cake"></i> ${dobFormatted}</span>`;
+    }
+    if (nationality) {
+        metaHTML += `<span class="cv-meta-item"><i class="fas fa-globe"></i> ${nationality}</span>`;
+    }
+    document.getElementById('cvMeta').innerHTML = metaHTML;
     // Update Contact Info
     let contactHTML = '';
-    if (email) contactHTML += `<div class="cv-contact-item"><i class="fas fa-envelope"></i> <span style="color: #000;">dark-mode .cv-contact-item { color: #e0e0e0; } ${email}</span></div>`;
-    if (phone) contactHTML += `<div class="cv-contact-item"><i class="fas fa-phone"></i> <span style="color: #000;">dark-mode .cv-contact-item { color: #e0e0e0; } ${phone}</span></div>`;
-    if (location) contactHTML += `<div class="cv-contact-item"><i class="fas fa-map-marker-alt"></i> <span style="color: #000;">dark-mode .cv-contact-item { color: #e0e0e0; } ${location}</span></div>`;
-    if (website) contactHTML += `<div class="cv-contact-item"><i class="fas fa-globe"></i> <a href="${website}" target="_blank" style="color: #000;">dark-mode .cv-contact-item a { color: #e0e0e0; } ${website.replace(/^https?:\/\//, '')}</a></div>`;
-    if (linkedin) contactHTML += `<div class="cv-contact-item"><i class="fab fa-linkedin"></i> <a href="${linkedin}" target="_blank" style="color: #000;">dark-mode .cv-contact-item a { color: #e0e0e0; } LinkedIn</a></div>`;
-    if (github) contactHTML += `<div class="cv-contact-item"><i class="fab fa-github"></i> <a href="${github}" target="_blank" style="color: #000;">dark-mode .cv-contact-item a { color: #e0e0e0; } GitHub</a></div>`;
+    if (email) contactHTML += `<div class="cv-contact-item"><i class="fas fa-envelope"></i> ${email}</div>`;
+    if (phone) contactHTML += `<div class="cv-contact-item"><i class="fas fa-phone"></i> ${phone}</div>`;
+    if (location) contactHTML += `<div class="cv-contact-item"><i class="fas fa-map-marker-alt"></i> ${location}</div>`;
+    if (website) contactHTML += `<div class="cv-contact-item"><i class="fas fa-globe"></i> ${website.replace(/^https?:\/\//, '')}</div>`;
+    if (linkedin) contactHTML += `<div class="cv-contact-item"><i class="fab fa-linkedin"></i> ${linkedin}</div>`;
+    if (github) contactHTML += `<div class="cv-contact-item"><i class="fab fa-github"></i> ${github}</div>`;
     document.getElementById('cvContact').innerHTML = contactHTML;
 
     // Update Photo
@@ -228,7 +238,7 @@ function updateCV() {
         document.getElementById('cvPhoto').style.display = 'block';
     }
 
-    // ===== SUMMARY SECTION =====
+    // Update Summary
     if (summary) {
         document.getElementById('cvSummary').style.display = 'block';
         document.getElementById('cvSummaryText').textContent = summary;
@@ -236,7 +246,7 @@ function updateCV() {
         document.getElementById('cvSummary').style.display = 'none';
     }
 
-    // ===== EXPERIENCE SECTION =====
+    // Update Experience
     let expHTML = '';
     document.querySelectorAll('.exp-title').forEach((input) => {
         const title = input.value;
@@ -266,7 +276,7 @@ function updateCV() {
         document.getElementById('cvExperienceSection').style.display = 'none';
     }
 
-    // ===== EDUCATION SECTION =====
+    // Update Education
     let eduHTML = '';
     document.querySelectorAll('.edu-degree').forEach(input => {
         const degree = input.value;
@@ -295,7 +305,7 @@ function updateCV() {
         document.getElementById('cvEducationSection').style.display = 'none';
     }
 
-    // ===== LANGUAGES SECTION =====
+    // Update Languages
     let langHTML = '';
     document.querySelectorAll('.lang-name').forEach(input => {
         const name = input.value;
@@ -318,7 +328,7 @@ function updateCV() {
         document.getElementById('cvLanguagesSection').style.display = 'none';
     }
 
-    // ===== SKILLS SECTION =====
+    // Update Skills
     if (skills.trim()) {
         const skillsList = skills.split(',').map(s => s.trim()).filter(s => s);
         document.getElementById('cvSkillsSection').style.display = 'block';
@@ -329,7 +339,7 @@ function updateCV() {
         document.getElementById('cvSkillsSection').style.display = 'none';
     }
 
-    // ===== CERTIFICATIONS SECTION =====
+    // Update Certifications
     let certHTML = '';
     document.querySelectorAll('.cert-name').forEach(input => {
         const name = input.value;
@@ -358,12 +368,14 @@ function updateCV() {
 }
 
 // ============================================
-// DATA PERSISTENCE - Save & Load
+// DATA PERSISTENCE
 // ============================================
 function saveData() {
     const data = {
         fullName: document.getElementById('fullName').value,
         title: document.getElementById('title').value,
+        dob: document.getElementById('dob').value,
+        nationality: document.getElementById('nationality').value,
         email: document.getElementById('email').value,
         phone: document.getElementById('phone').value,
         location: document.getElementById('location').value,
@@ -384,6 +396,8 @@ function loadData() {
         const data = JSON.parse(saved);
         document.getElementById('fullName').value = data.fullName || '';
         document.getElementById('title').value = data.title || '';
+        document.getElementById('dob').value = data.dob || '';
+        document.getElementById('nationality').value = data.nationality || '';
         document.getElementById('email').value = data.email || '';
         document.getElementById('phone').value = data.phone || '';
         document.getElementById('location').value = data.location || '';
@@ -399,7 +413,6 @@ function loadData() {
         }
     }
     
-    // Load photo
     const savedPhoto = localStorage.getItem('profilePhoto');
     if (savedPhoto) {
         document.getElementById('photoPreview').src = savedPhoto;
@@ -409,12 +422,14 @@ function loadData() {
 }
 
 // ============================================
-// EXPORT & IMPORT - JSON File Exchange
+// EXPORT & IMPORT
 // ============================================
 function exportData() {
     const data = {
         fullName: document.getElementById('fullName').value,
         title: document.getElementById('title').value,
+        dob: document.getElementById('dob').value,
+        nationality: document.getElementById('nationality').value,
         email: document.getElementById('email').value,
         phone: document.getElementById('phone').value,
         location: document.getElementById('location').value,
@@ -451,6 +466,8 @@ function handleImport(event) {
                 const data = JSON.parse(e.target.result);
                 document.getElementById('fullName').value = data.fullName || '';
                 document.getElementById('title').value = data.title || '';
+                document.getElementById('dob').value = data.dob || '';
+                document.getElementById('nationality').value = data.nationality || '';
                 document.getElementById('email').value = data.email || '';
                 document.getElementById('phone').value = data.phone || '';
                 document.getElementById('location').value = data.location || '';
@@ -484,7 +501,7 @@ function handleImport(event) {
 }
 
 // ============================================
-// EXPORT & UTILITY - PDF Download & Form Reset
+// EXPORT & UTILITY
 // ============================================
 function downloadPDF() {
     const element = document.getElementById('cvContent');
@@ -502,6 +519,8 @@ function resetForm() {
     if (confirm('⚠️ This will clear all data. Are you sure?')) {
         document.getElementById('fullName').value = '';
         document.getElementById('title').value = '';
+        document.getElementById('dob').value = '';
+        document.getElementById('nationality').value = '';
         document.getElementById('email').value = '';
         document.getElementById('phone').value = '';
         document.getElementById('location').value = '';

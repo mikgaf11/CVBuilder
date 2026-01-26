@@ -24,7 +24,6 @@
                 <button class="btn btn-primary" onclick="downloadPDF()"><i class="fas fa-download"></i> Download PDF</button>
                 <button class="btn btn-secondary" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
                 <button class="btn btn-secondary" onclick="toggleDarkMode()"><i class="fas fa-moon"></i> Dark Mode</button>
-                <button class="btn btn-secondary" onclick="exportData()"><i class="fas fa-save"></i> Export</button>
             </div>
         </div>
 
@@ -40,6 +39,16 @@
                     <div class="form-group">
                         <label>Professional Title</label>
                         <input type="text" id="title" placeholder="Senior Developer" onchange="updateCV(); saveData()">
+                    </div>
+                    <div class="form-group">
+                        <label>Nationality</label>
+                        <input type="text" id="nationality" placeholder="Maltese" onchange="updateCV(); saveData()">
+                    </div>
+                </div>
+                <div class="two-columns">
+                    <div class="form-group">
+                        <label>Date of Birth</label>
+                        <input type="date" id="dob" onchange="updateCV(); saveData()">
                     </div>
                     <div class="form-group">
                         <label>Phone</label>
@@ -138,6 +147,7 @@
                     <img id="cvPhoto" class="cv-photo" style="display: none;" alt="Profile">
                     <div class="cv-name" id="cvName">Your Full Name</div>
                     <div class="cv-title" id="cvTitle">Professional Title</div>
+                    <div class="cv-meta" id="cvMeta"></div>
                     <div class="cv-contact" id="cvContact"></div>
                 </div>
 

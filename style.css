@@ -211,6 +211,7 @@ input[type="text"],
 input[type="email"],
 input[type="tel"],
 input[type="url"],
+input[type="date"],
 textarea,
 select {
     width: 100%;
@@ -228,6 +229,7 @@ input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="tel"]:focus,
 input[type="url"]:focus,
+input[type="date"]:focus,
 textarea:focus,
 select:focus {
     outline: none;
@@ -348,11 +350,8 @@ body.dark-mode .array-item {
 }
 
 .language-card input {
-    border: none;
-    padding: 0;
-    font-weight: 600;
-    font-size: 14px;
-    color: var(--primary);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
 }
 
 .language-card select {
@@ -418,6 +417,26 @@ body.dark-mode .cv-preview {
     color: var(--secondary);
     font-weight: 500;
     margin-bottom: 10px;
+}
+
+.cv-meta {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    flex-wrap: wrap;
+}
+
+.cv-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--secondary);
+}
+
+.cv-meta-item i {
+    color: var(--primary);
 }
 
 .cv-contact {
