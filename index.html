@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Builder Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container-main">
+        <div class="header">
+            <h1><i class="fas fa-file-pdf"></i> CV Builder Pro</h1>
+            <div class="header-actions">
+                <div class="color-palette">
+                    <span style="font-size: 12px; font-weight: 500;">Theme:</span>
+                    <button class="color-btn color-1 active" onclick="changeTheme('#208096')" title="Teal"></button>
+                    <button class="color-btn color-2" onclick="changeTheme('#d4473f')" title="Red"></button>
+                    <button class="color-btn color-3" onclick="changeTheme('#a84d2f')" title="Orange"></button>
+                    <button class="color-btn color-4" onclick="changeTheme('#6b3ba0')" title="Purple"></button>
+                    <button class="color-btn color-5" onclick="changeTheme('#0f8b8d')" title="Cyan"></button>
+                    <button class="color-btn color-6" onclick="changeTheme('#c24e1a')" title="Burnt Orange"></button>
+                </div>
+                <button class="btn btn-primary" onclick="downloadPDF()"><i class="fas fa-download"></i> Download PDF</button>
+                <button class="btn btn-secondary" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+            </div>
+        </div>
+
+        <div class="form-section" id="formSection">
+            <!-- Personal Information -->
+            <div class="section-group">
+                <h3 class="section-title">Personal Information</h3>
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="fullName" placeholder="John Doe" onchange="updateCV()">
+                </div>
+                <div class="two-columns">
+                    <div class="form-group">
+                        <label>Professional Title</label>
+                        <input type="text" id="title" placeholder="Senior Developer" onchange="updateCV()">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" id="phone" placeholder="+1 (555) 000-0000" onchange="updateCV()">
+                    </div>
+                </div>
+                <div class="two-columns">
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="email" placeholder="john@example.com" onchange="updateCV()">
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" id="location" placeholder="Pietà, Malta" onchange="updateCV()">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Website/Portfolio</label>
+                    <input type="url" id="website" placeholder="https://yourportfolio.com" onchange="updateCV()">
+                </div>
+
+                <!-- Profile Photo -->
+                <div class="file-input-wrapper">
+                    <input type="file" id="profilePhoto" accept="image/*" onchange="previewPhoto()">
+                    <label for="profilePhoto" class="file-input-label">
+                        <i class="fas fa-camera"></i> Upload Profile Photo
+                    </label>
+                    <img id="photoPreview" class="image-preview" style="display: none;" alt="Profile Photo">
+                    <button class="remove-btn" id="removePhotoBtn" style="display: none;" onclick="removePhoto()">Remove Photo</button>
+                </div>
+
+                <div class="form-group">
+                    <label>Professional Summary</label>
+                    <textarea id="summary" placeholder="Brief overview of your skills and experience..." onchange="updateCV()"></textarea>
+                </div>
+            </div>
+
+            <!-- Experience -->
+            <div class="section-group">
+                <h3 class="section-title">Work Experience</h3>
+                <div id="experienceContainer"></div>
+                <button class="add-btn" onclick="addExperience()"><i class="fas fa-plus"></i> Add Experience</button>
+            </div>
+
+            <!-- Education -->
+            <div class="section-group">
+                <h3 class="section-title">Education</h3>
+                <div id="educationContainer"></div>
+                <button class="add-btn" onclick="addEducation()"><i class="fas fa-plus"></i> Add Education</button>
+            </div>
+
+            <!-- Languages -->
+            <div class="section-group">
+                <h3 class="section-title">Languages</h3>
+                <div id="languagesContainer"></div>
+                <button class="add-btn" onclick="addLanguage()"><i class="fas fa-plus"></i> Add Language</button>
+            </div>
+
+            <!-- Skills -->
+            <div class="section-group">
+                <h3 class="section-title">Skills</h3>
+                <div class="form-group">
+                    <label>Add Skills (comma-separated)</label>
+                    <textarea id="skills" placeholder="JavaScript, React, Node.js, CSS, HTML..." onchange="updateCV()"></textarea>
+                </div>
+            </div>
+
+            <!-- Certifications -->
+            <div class="section-group">
+                <h3 class="section-title">Certifications & Awards</h3>
+                <div id="certificationsContainer"></div>
+                <button class="add-btn" onclick="addCertification()"><i class="fas fa-plus"></i> Add Certification</button>
+            </div>
+        </div>
+
+        <!-- CV Preview -->
+        <div class="cv-preview">
+            <div class="cv-content" id="cvContent">
+                <div class="cv-header">
+                    <img id="cvPhoto" class="cv-photo" style="display: none;" alt="Profile">
+                    <div class="cv-name" id="cvName">Your Full Name</div>
+                    <div class="cv-title" id="cvTitle">Professional Title</div>
+                    <div class="cv-contact" id="cvContact"></div>
+                </div>
+
+                <div id="cvSummary" class="cv-section" style="display: none;">
+                    <div class="cv-section-title">Professional Summary</div>
+                    <div id="cvSummaryText"></div>
+                </div>
+
+                <div id="cvExperienceSection" class="cv-section" style="display: none;">
+                    <div class="cv-section-title">Work Experience</div>
+                    <div id="cvExperienceList"></div>
+                </div>
+
+                <div id="cvEducationSection" class="cv-section" style="display: none;">
+                    <div class="cv-section-title">Education</div>
+                    <div id="cvEducationList"></div>
+                </div>
+
+                <div id="cvLanguagesSection" class="cv-section" style="display: none;">
+                    <div class="cv-section-title">Languages</div>
+                    <div class="cv-languages-grid" id="cvLanguagesList"></div>
+                </div>
+
+                <div id="cvSkillsSection" class="cv-section" style="display: none;">
+                    <div class="cv-section-title">Skills</div>
+                    <div class="cv-skills" id="cvSkillsList"></div>
+                </div>
+
+                <div id="cvCertificationsSection" class="cv-section" style="display: none;">
+                    <div class="cv-section-title">Certifications & Awards</div>
+                    <div id="cvCertificationsList"></div>
+                </div>
+            </div>
+            <div class="cv-footer-actions">
+                <button class="btn btn-secondary btn-sm" onclick="resetForm()">Reset Form</button>
+                <button class="btn btn-primary btn-sm" onclick="downloadPDF()"><i class="fas fa-download"></i> Download PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
