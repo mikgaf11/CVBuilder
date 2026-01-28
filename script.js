@@ -93,7 +93,9 @@ function addExperience() {
         <div class="array-item" id="exp-${id}">
             <div class="item-header">
                 <strong>Job Title</strong>
-                <button class="remove-btn trash-btn" onclick="removeExperience(${id})" title="Delete"><i class="fas fa-trash"></i></button>
+                <button type="button" class="trash-btn" onclick="removeExperience(${id})" title="Delete">
+                    <i class="fas fa-trash"></i>
+                </button>
             </div>
             <div class="two-columns">
                 <input type="text" placeholder="Job Title" class="exp-title" data-id="${id}" onchange="updateCV(); saveData()">
@@ -109,6 +111,18 @@ function addExperience() {
     container.insertAdjacentHTML('beforeend', html);
 }
 
+function removeExperience(id) {
+    const el = document.getElementById(`exp-${id}`);
+    if (el) {
+        el.remove();
+        updateCV();
+        saveData();
+    }
+}
+
+// ============================================
+// EDUCATION MANAGEMENT
+// ============================================
 function addEducation() {
     const id = educationCount++;
     const container = document.getElementById('educationContainer');
@@ -116,7 +130,9 @@ function addEducation() {
         <div class="array-item" id="edu-${id}">
             <div class="item-header">
                 <strong>Degree</strong>
-                <button class="remove-btn trash-btn" onclick="removeEducation(${id})" title="Delete"><i class="fas fa-trash"></i></button>
+                <button type="button" class="trash-btn" onclick="removeEducation(${id})" title="Delete">
+                    <i class="fas fa-trash"></i>
+                </button>
             </div>
             <div class="two-columns">
                 <input type="text" placeholder="Degree" class="edu-degree" data-id="${id}" onchange="updateCV(); saveData()">
@@ -131,6 +147,18 @@ function addEducation() {
     container.insertAdjacentHTML('beforeend', html);
 }
 
+function removeEducation(id) {
+    const el = document.getElementById(`edu-${id}`);
+    if (el) {
+        el.remove();
+        updateCV();
+        saveData();
+    }
+}
+
+// ============================================
+// LANGUAGES MANAGEMENT
+// ============================================
 function addLanguage() {
     const id = languageCount++;
     const container = document.getElementById('languagesContainer');
@@ -138,7 +166,9 @@ function addLanguage() {
         <div class="language-card" id="lang-${id}">
             <div class="language-card-header">
                 <input type="text" placeholder="Language Name (e.g., English)" class="lang-name" data-id="${id}" onchange="updateCV(); saveData()">
-                <button class="trash-btn" onclick="removeLanguage(${id})" title="Delete"><i class="fas fa-trash"></i></button>
+                <button type="button" class="trash-btn" onclick="removeLanguage(${id})" title="Delete">
+                    <i class="fas fa-trash"></i>
+                </button>
             </div>
             <select class="lang-level" data-id="${id}" onchange="updateCV(); saveData()">
                 <option value="">Select Proficiency Level</option>
@@ -152,6 +182,18 @@ function addLanguage() {
     container.insertAdjacentHTML('beforeend', html);
 }
 
+function removeLanguage(id) {
+    const el = document.getElementById(`lang-${id}`);
+    if (el) {
+        el.remove();
+        updateCV();
+        saveData();
+    }
+}
+
+// ============================================
+// CERTIFICATION MANAGEMENT
+// ============================================
 function addCertification() {
     const id = certificationCount++;
     const container = document.getElementById('certificationsContainer');
@@ -159,7 +201,9 @@ function addCertification() {
         <div class="array-item" id="cert-${id}">
             <div class="item-header">
                 <strong>Certification</strong>
-                <button class="remove-btn trash-btn" onclick="removeCertification(${id})" title="Delete"><i class="fas fa-trash"></i></button>
+                <button type="button" class="trash-btn" onclick="removeCertification(${id})" title="Delete">
+                    <i class="fas fa-trash"></i>
+                </button>
             </div>
             <div class="two-columns">
                 <input type="text" placeholder="Certification/Award Name" class="cert-name" data-id="${id}" onchange="updateCV(); saveData()">
@@ -172,9 +216,12 @@ function addCertification() {
 }
 
 function removeCertification(id) {
-    document.getElementById(`cert-${id}`).remove();
-    updateCV();
-    saveData();
+    const el = document.getElementById(`cert-${id}`);
+    if (el) {
+        el.remove();
+        updateCV();
+        saveData();
+    }
 }
 
 // ============================================
@@ -209,6 +256,7 @@ function updateCV() {
         metaHTML += `<span class="cv-meta-item"><i class="fas fa-globe"></i> ${nationality}</span>`;
     }
     document.getElementById('cvMeta').innerHTML = metaHTML;
+
     // Update Contact Info
     let contactHTML = '';
     if (email) contactHTML += `<div class="cv-contact-item"><i class="fas fa-envelope"></i> ${email}</div>`;
@@ -489,7 +537,7 @@ function handleImport(event) {
 }
 
 // ============================================
-// EXPORT & UTILITY
+// EXPORT & UTILITY - PDF Download & Form Reset
 // ============================================
 function downloadPDF() {
     const element = document.getElementById('cvContent');
